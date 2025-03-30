@@ -71,3 +71,23 @@ export async function mintMPXToUser(userAddress, amount, signer) {
     throw error;
   }
 }
+
+export async function mintXfiToStakeContract(amount, signer) {
+  try {
+  
+    const xfiContract = new ethers.Contract(xfiAddress, XFI_ABI, signer);
+    
+   
+    const parsedAmount = ethers.parseEther(amount);
+    
+   
+    const tx = await xfiContract.mint(stakeContractAddress, parsedAmount);
+    
+  
+    const receipt = await tx.wait();
+    return receipt;
+  } catch (error) {
+    console.error("Error minting XFI tokens", error);
+    throw error;
+  }
+}

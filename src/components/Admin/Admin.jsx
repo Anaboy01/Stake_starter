@@ -9,7 +9,12 @@ export default function AdminPage() {
 
   const [mpxMintAmount, setMpxMintAmount] = useState("");
   const [userAddress, setUserAddress] = useState("");
-  const [isMinting, setIsMinting] = useState(false);
+  const [isMintingMPX, setIsMintingMPX] = useState(false);
+
+  const [xfiMintAmount, setXfiMintAmount] = useState("");
+  const [isMintingXFI, setIsMintingXFI] = useState(false);
+
+
   const [isRefreshing, setIsRefreshing] = useState(false);
 
 
@@ -35,6 +40,10 @@ export default function AdminPage() {
   const handleMintMPX = async (e) => {
     e.preventDefault()
     console.log(`${mpxMintAmount}MPX minted to user ${userAddress}`)
+  };
+  const handleMintXFI = async (e) => {
+    e.preventDefault()
+    console.log(`${xfiMintAmount}MPX minted to user $contract`)
   };
 
   return (
@@ -136,12 +145,12 @@ export default function AdminPage() {
 
               <button
                 type="submit"
-                disabled={isMinting}
+                disabled={isMintingMPX}
                 className={`w-full px-4 py-2 rounded-md text-white font-medium transition-colors ${
-                  isMinting ? "bg-green-400 cursor-not-allowed" : "bg-green-600 hover:bg-green-700"
+                  isMintingMPX ? "bg-green-400 cursor-not-allowed" : "bg-green-600 hover:bg-green-700"
                 }`}
               >
-                {isMinting ? "Minting..." : "Mint MPX to User"}
+                {isMintingMPX ? "Minting..." : "Mint MPX to User"}
               </button>
             </form>
 
@@ -151,6 +160,51 @@ export default function AdminPage() {
                 <div>
                   <p className="text-xs text-amber-700 mt-1">
                     Mint new MPX tokens directly to Users. (Only the contract owner can call this function.)
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+           {/* Mint XFI Section */}
+           <div className="bg-white rounded-lg border shadow-sm p-6">
+            <h2 className="text-lg font-semibold mb-4">Mint XFI to Stake Contract</h2>
+            <form onSubmit={handleMintXFI} className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium mb-1">Amount to Mint</label>
+                <div className="relative">
+                  <input
+                    type="text"
+                    value={xfiMintAmount}
+                    onChange={(e) => {
+                      console.log("New XFI mint amount:", e.target.value);
+                      setXfiMintAmount(e.target.value);
+                    }}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 pr-12"
+                    placeholder="Enter amount"
+                    required
+                  />
+                  <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                    <span className="text-sm text-gray-500">XFI</span>
+                  </div>
+                </div>
+              </div>
+              <button
+                type="submit"
+                disabled={isMintingXFI}
+                className={`w-full px-4 py-2 rounded-md text-white font-medium transition-colors ${
+                  isMintingXFI ? "bg-green-400 cursor-not-allowed" : "bg-green-600 hover:bg-green-700"
+                }`}
+              >
+                {isMintingXFI ? "Minting..." : "Mint XFI to Stake Contract"}
+              </button>
+            </form>
+            <div className="mt-4 p-3 bg-amber-50 rounded-lg">
+              <div className="flex items-start">
+                <ShieldAlert className="h-5 w-5 text-amber-600 mr-2 mt-0.5" />
+                <div>
+                  <p className="text-xs text-amber-700 mt-1">
+                    Mint new XFI tokens directly to the Stake Contract. (Only the contract owner can call this function.)
                   </p>
                 </div>
               </div>
